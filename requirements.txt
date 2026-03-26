@@ -9,11 +9,7 @@ streamlit
 tavily-python
 pypdf
 transformers
-#pinecone
+pinecone
 faster-whisper 
-supabase
-gtts==2.5.1
-scipy
-langchain-pinecone==0.0.3
-pinecone-client==3.2.2
 #sounddevice
+supabase
