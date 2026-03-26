@@ -11,5 +11,4 @@ pypdf
 transformers
 pinecone
 faster-whisper 
-sounddevice
 supabase
