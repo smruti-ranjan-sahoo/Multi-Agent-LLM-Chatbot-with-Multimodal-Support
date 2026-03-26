@@ -12,4 +12,5 @@ transformers
 pinecone
 faster-whisper 
 supabase
+gtts
 #sounddevice
