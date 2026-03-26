@@ -13,4 +13,5 @@ pinecone
 faster-whisper 
 supabase
 gtts==2.5.1
+scipy
 #sounddevice
