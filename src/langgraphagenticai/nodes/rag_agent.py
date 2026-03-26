@@ -20,23 +20,6 @@ class RAGAgent:
             )
         )
 
-    # def process(self, state: State) -> dict:
-    #     query = state["messages"][-1].content
-
-    #     docs = self.retriever.invoke(query)
-
-    #     context = "\n\n".join(doc.page_content for doc in docs)
-
-    #     messages = [
-    #         self.system_prompt,
-    #         SystemMessage(content=f"Context:\n{context}"),
-    #         *state["messages"],
-    #     ]
-
-    #     response = self.llm.invoke(messages)
-
-    #     # return {"messages": [response]}
-    #     return {"messages": state["messages"] + [response]}
     def process(self, state: State) -> dict:
         query = state["messages"][-1].content
 
