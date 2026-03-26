@@ -2,6 +2,7 @@ streamlit
 langchain
 langgraph
 langchain-groq
+langchain-pinecone
 supabase
 pinecone-client
 jina
