@@ -1,4 +1,4 @@
-from distro import name
+#from distro import name
 import streamlit as st
 import uuid
 import tempfile
