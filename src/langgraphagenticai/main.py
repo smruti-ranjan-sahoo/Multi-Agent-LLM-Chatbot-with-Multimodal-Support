@@ -17,16 +17,6 @@ from src.langgraphagenticai.ui.streamlitui.display_result import DisplayResultSt
 # ── Fixed user ID (no auth) ───────────────────────────────────────────────
 user_id = "local_user"
 
-# ── Session state defaults ────────────────────────────────────────────────
-for key, default in [
-    ("last_audio_id",    None),
-    ("last_audio_path",  None),
-    ("voice_transcript", None),
-    ("voice_sent",       False),
-]:
-    if key not in st.session_state:
-        st.session_state[key] = default
-
 # ═════════════════════════════════════════════════════════════════════════
 # CSS — upload cards + voice card
 # ═════════════════════════════════════════════════════════════════════════
@@ -182,6 +172,18 @@ db = ChatDatabase()
 # ═════════════════════════════════════════════════════════════════════════
 def load_langgraph_agenticai_app():
 
+    # ── Session state defaults (MUST be inside function so they always run) ──
+    for key, default in [
+        ("last_audio_id",    None),
+        ("last_audio_path",  None),
+        ("voice_transcript", None),
+        ("voice_sent",       False),
+        ("image_bytes",      None),
+        ("retriever",        None),
+    ]:
+        if key not in st.session_state:
+            st.session_state[key] = default
+
     ui         = LoadStreamlitUI()
     user_input = ui.load_streamlit_ui()
     if not user_input:
@@ -298,10 +300,6 @@ def load_langgraph_agenticai_app():
     # ═══════════════════════════════════════════════════════════════════
     # DOCUMENT QA
     # ═══════════════════════════════════════════════════════════════════
-    retriever = None
-    if "retriever" not in st.session_state:
-        st.session_state.retriever = None
-
     if usecase == "Document QA":
         st.markdown(
             '<div class="upload-card">'
@@ -338,9 +336,6 @@ def load_langgraph_agenticai_app():
     # ═══════════════════════════════════════════════════════════════════
     # MULTI-AGENT IMAGE UPLOAD
     # ═══════════════════════════════════════════════════════════════════
-    if "image_bytes" not in st.session_state:
-        st.session_state.image_bytes = None
-
     if usecase == "Multi-Agent Chatbot":
         st.markdown(
             '<div class="upload-card">'
@@ -469,9 +464,10 @@ def load_langgraph_agenticai_app():
             latest_text      = messages[-1].content
             current_audio_id = hash(latest_text)
 
-            if st.session_state.last_audio_id != current_audio_id:
+            # FIX: use .get() as a safe fallback in case key is somehow missing
+            if st.session_state.get("last_audio_id") != current_audio_id:
                 st.session_state.last_audio_path = text_to_speech(latest_text)
                 st.session_state.last_audio_id   = current_audio_id
 
-            if st.session_state.last_audio_path:
+            if st.session_state.get("last_audio_path"):
                 st.audio(st.session_state.last_audio_path)
